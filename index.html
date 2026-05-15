@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_10.html -->
+<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_11.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link href="./index_files/css2" rel="stylesheet">
 <link rel="stylesheet" href="./index_files/tabler-icons.min.css">
-<script src="./index_files/xlsx.full.min.js.ダウンロード"></script>
+<script>
+(function(){
+  const urls=[
+    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+    'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+    'https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js'
+  ];
+  let idx=0;
+  function tryLoad(){
+    if(idx>=urls.length){
+      document.getElementById('xlsxStatus').textContent='⚠️ Excelライブラリの読み込みに失敗しました。ページを再読み込みしてください。';
+      return;
+    }
+    const s=document.createElement('script');
+    s.src=urls[idx++];
+    s.onerror=()=>{tryLoad();};
+    s.onload=()=>{
+      window._xlsxLoaded=true;
+      const el=document.getElementById('xlsxStatus');
+      if(el)el.style.display='none';
+    };
+    document.head.appendChild(s);
+  }
+  tryLoad();
+})();
+</script><script src="./index_files/xlsx.full.min.js.ダウンロード"></script>
 <style>
 :root{
   --blue:#1A6DB5;--blue-bg:#EBF3FB;--blue-reh:#90BCE8;
@@ -154,7 +179,7 @@ button,input,select,textarea{font-family:inherit}
   </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <span style="font-size:11px;background:#E5F5EF;color:#0A5C40;padding:3px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:4px"><i class="ti ti-users" style="font-size:12px"></i>3名共有</span>
-    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 12:00</span></span>
+    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 15:25</span></span>
     <button class="btn" onclick="sw(&#39;import&#39;,document.querySelector(&#39;[data-tab=import]&#39;))"><i class="ti ti-file-import"></i>Excel取込</button>
     <button class="btn btn-p" onclick="openAddPerf()"><i class="ti ti-plus"></i>公演追加</button>
     <button class="btn btn-p" onclick="openAddMember()"><i class="ti ti-user-plus"></i>メンバー追加</button>
@@ -7354,7 +7379,10 @@ button,input,select,textarea{font-family:inherit}
       <span style="color:var(--danger);font-weight:500">※取込後は既存の公演データに追加されます（上書きではありません）</span>
     </div>
     <div style="margin-bottom:12px">
-      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_10.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
+      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_11.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
+    </div>
+    <div id="xlsxStatus" style="background: rgb(251, 240, 218); border: 1px solid rgb(245, 201, 106); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: rgb(107, 74, 0); margin-bottom: 10px; display: none;">
+      <i class="ti ti-loader" style="font-size:13px"></i> Excelライブラリを読み込み中...
     </div>
     <div class="import-box" id="dropZone" ondragover="event.preventDefault();this.classList.add(&#39;drag&#39;)" ondragleave="this.classList.remove(&#39;drag&#39;)" ondrop="handleDrop(event)" onclick="document.getElementById(&#39;xlsxInput&#39;).click()">
       <i class="ti ti-table-import"></i>
@@ -8162,6 +8190,10 @@ function updatePerfFilter(){
 function handleDrop(e){e.preventDefault();e.currentTarget.classList.remove('drag');const f=e.dataTransfer.files[0];if(f)handleFile(f);}
 function handleFile(file){
   if(!file||!file.name.endsWith('.xlsx')){showImportResult('error','xlsx ファイルを選択してください');return;}
+  if(typeof XLSX==='undefined'){
+    showImportResult('error','Excelライブラリがまだ読み込まれていません。ページを再読み込みして再度お試しください。');
+    return;
+  }
   const reader=new FileReader();
   reader.onload=async e=>{
     try{
