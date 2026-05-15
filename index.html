@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_13.html -->
+<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_14.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,7 +179,7 @@ button,input,select,textarea{font-family:inherit}
   </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <span style="font-size:11px;background:#E5F5EF;color:#0A5C40;padding:3px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:4px"><i class="ti ti-users" style="font-size:12px"></i>3名共有</span>
-    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 15:32</span></span>
+    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 15:34</span></span>
     <button class="btn" onclick="sw(&#39;import&#39;,document.querySelector(&#39;[data-tab=import]&#39;))"><i class="ti ti-file-import"></i>Excel取込</button>
     <button class="btn btn-p" onclick="openAddPerf()"><i class="ti ti-plus"></i>公演追加</button>
     <button class="btn btn-p" onclick="openAddMember()"><i class="ti ti-user-plus"></i>メンバー追加</button>
@@ -189,16 +189,16 @@ button,input,select,textarea{font-family:inherit}
 <div class="stats" id="statsBar"><div class="stat"><div class="stat-l">在団メンバー</div><div class="stat-v">60</div><div class="stat-s">名</div></div><div class="stat"><div class="stat-l">休団中</div><div class="stat-v">0</div><div class="stat-s">名</div></div><div class="stat"><div class="stat-l">登録公演</div><div class="stat-v">2</div><div class="stat-s">件</div></div><div class="stat"><div class="stat-l">ミューズホール</div><div class="stat-v">0</div><div class="stat-s">件</div></div><div class="stat"><div class="stat-l">競合</div><div class="stat-v">0</div><div class="stat-s">なし</div></div></div>
 
 <div class="tabs">
-  <button class="tab on" data-tab="members" onclick="sw(&#39;members&#39;,this)"><i class="ti ti-users"></i>メンバー別</button>
+  <button class="tab" data-tab="members" onclick="sw(&#39;members&#39;,this)"><i class="ti ti-users"></i>メンバー別</button>
   <button class="tab" data-tab="year" onclick="sw(&#39;year&#39;,this)"><i class="ti ti-calendar-stats"></i>365日年間ビュー</button>
   <button class="tab" data-tab="cal" onclick="sw(&#39;cal&#39;,this)"><i class="ti ti-calendar"></i>チーム別</button>
   <button class="tab" data-tab="perfs" onclick="sw(&#39;perfs&#39;,this)"><i class="ti ti-theater"></i>公演一覧</button>
   <button class="tab" data-tab="conflicts" onclick="sw(&#39;conflicts&#39;,this)"><i class="ti ti-alert-triangle"></i>競合チェック</button>
-  <button class="tab" data-tab="import" onclick="sw(&#39;import&#39;,this)"><i class="ti ti-file-import"></i>Excel取込</button>
+  <button class="tab on" data-tab="import" onclick="sw(&#39;import&#39;,this)"><i class="ti ti-file-import"></i>Excel取込</button>
 </div>
 
 <!-- メンバー別月カレンダー -->
-<div class="sec on" id="sec-members">
+<div class="sec" id="sec-members">
   <div style="display:flex;gap:7px;margin-bottom:10px;align-items:center;flex-wrap:wrap">
     <div class="cal-nav" style="flex:1;min-width:160px;margin-bottom:0">
       <button class="btn btn-sm" onclick="chM(-1)"><i class="ti ti-chevron-left"></i></button>
@@ -7367,7 +7367,7 @@ button,input,select,textarea{font-family:inherit}
 </div>
 
 <!-- Excel取込 -->
-<div class="sec" id="sec-import">
+<div class="sec on" id="sec-import">
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;max-width:700px">
     <div style="font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px">
       <i class="ti ti-file-import" style="color:var(--blue);font-size:18px"></i>公演スケジュール Excel取込
@@ -7384,7 +7384,7 @@ button,input,select,textarea{font-family:inherit}
       <div style="color:var(--danger);font-weight:500;font-size:11px">※取込後は既存データに追加されます（上書きではありません）</div>
     </div>
     <div style="margin-bottom:12px">
-      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_13.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
+      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_14.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
     </div>
     <div id="xlsxStatus" style="background: rgb(251, 240, 218); border: 1px solid rgb(245, 201, 106); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: rgb(107, 74, 0); margin-bottom: 10px; display: none;">
       <i class="ti ti-loader" style="font-size:13px"></i> Excelライブラリを読み込み中...
