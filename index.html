@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_11.html -->
+<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_13.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -179,7 +179,7 @@ button,input,select,textarea{font-family:inherit}
   </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
     <span style="font-size:11px;background:#E5F5EF;color:#0A5C40;padding:3px 9px;border-radius:20px;font-weight:500;display:inline-flex;align-items:center;gap:4px"><i class="ti ti-users" style="font-size:12px"></i>3名共有</span>
-    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 15:25</span></span>
+    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">クラウド保存済み 15:32</span></span>
     <button class="btn" onclick="sw(&#39;import&#39;,document.querySelector(&#39;[data-tab=import]&#39;))"><i class="ti ti-file-import"></i>Excel取込</button>
     <button class="btn btn-p" onclick="openAddPerf()"><i class="ti ti-plus"></i>公演追加</button>
     <button class="btn btn-p" onclick="openAddMember()"><i class="ti ti-user-plus"></i>メンバー追加</button>
@@ -7373,13 +7373,18 @@ button,input,select,textarea{font-family:inherit}
       <i class="ti ti-file-import" style="color:var(--blue);font-size:18px"></i>公演スケジュール Excel取込
     </div>
     <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.8">
-      ① まずテンプレートをダウンロードしてExcelで入力<br>
-      ② 入力済みExcelをここにドロップまたは選択<br>
-      ③「大劇場公演」「ミューズホール公演」の2シートを自動で読み込みます<br>
-      <span style="color:var(--danger);font-weight:500">※取込後は既存の公演データに追加されます（上書きではありません）</span>
+      <div style="background:#E5F5EF;border:1px solid #A5D6A7;border-radius:8px;padding:10px 12px;margin-bottom:8px;color:#0A5C40">
+        <strong>📋 公式スケジュール表（推奨）</strong><br>
+        ハウステンボスの公式スケジュールExcelをそのままドロップするだけで自動取込できます
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <strong>📝 テンプレート形式</strong><br>
+        下のテンプレートをダウンロードして入力したExcelもドロップできます
+      </div>
+      <div style="color:var(--danger);font-weight:500;font-size:11px">※取込後は既存データに追加されます（上書きではありません）</div>
     </div>
     <div style="margin-bottom:12px">
-      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_11.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
+      <a id="templateDownload" href="file:///C:/Users/doi_m/Downloads/htb_kagekidan_13.html#" onclick="downloadTemplate(event)" class="btn btn-gold"><i class="ti ti-download"></i>Excelテンプレートをダウンロード</a>
     </div>
     <div id="xlsxStatus" style="background: rgb(251, 240, 218); border: 1px solid rgb(245, 201, 106); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: rgb(107, 74, 0); margin-bottom: 10px; display: none;">
       <i class="ti ti-loader" style="font-size:13px"></i> Excelライブラリを読み込み中...
@@ -8238,24 +8243,40 @@ async function importScheduleFormat(wb){
   const TMAP={'ﾌﾞﾙｰﾛｰｽﾞ':'ブルーローズ','ﾊﾋﾟﾈｽ':'ハピネス','ﾊｰﾄ':'ハート','ｼｬｲﾝ':'シャイン','ﾌﾗﾜｰ':'フラワー','ｳｨﾝｸﾞ':'ウィング'};
   function norm(s){
     if(!s)return null; s=String(s).trim();
+    // 括弧内を優先して抽出（例: '11:45（ﾌﾞﾙｰﾛｰｽﾞ）'）
     const m=s.match(/[（(]([^）)]+)[）)]/);
-    const raw=m?m[1]:s;
-    return TMAP[raw.trim()]||null;
+    const raw=(m?m[1]:s).trim();
+    // TMAPに直接マッチ
+    if(TMAP[raw])return TMAP[raw];
+    // 部分マッチ（括弧なしの場合: 'ﾊﾋﾟﾈｽ'など）
+    for(const[k,v]of Object.entries(TMAP)){if(raw.includes(k))return v;}
+    return null;
   }
   function normDayoff(s){
-    if(!s)return null; s=String(s);
-    for(const[k,v]of Object.entries(TMAP)){if(s.includes(k)&&/DAYOFF/i.test(s))return v;}
+    if(!s)return null; s=String(s).trim();
+    // 例: 'ﾊﾋﾟﾈｽDAYOFF', 'ﾌﾞﾙｰﾛｰｽﾞ DAYOFF', '春最終日' など
+    if(!/DAYOFF/i.test(s))return null;
+    for(const[k,v]of Object.entries(TMAP)){if(s.includes(k))return v;}
     return null;
   }
 
   // 日別データ収集
+  // 列構成: B(1)=日付, E(4)=1回目, F(5)=2回目, H(7)=ミューズ, J(9)=備考
   const teamShowMap={}; // team -> {day -> showType}
   const teamDayoff={};  // team -> [day]
   const museMap={};     // team -> [day]
 
   for(const row of rows){
-    const day=row[1];
-    if(typeof day!=='number'||!Number.isInteger(day)||day<1||day>31)continue;
+    // B列(index1)が1〜31の整数 or 数字文字列なら日付行
+    const dayRaw=row[1];
+    let day=null;
+    if(typeof dayRaw==='number'&&Number.isInteger(dayRaw)&&dayRaw>=1&&dayRaw<=31){
+      day=dayRaw;
+    } else if(typeof dayRaw==='string'&&/^\d{1,2}$/.test(dayRaw.trim())){
+      const n=parseInt(dayRaw.trim());
+      if(n>=1&&n<=31)day=n;
+    }
+    if(!day)continue;
     const s1=norm(row[4]),s2=norm(row[5]),muse=norm(row[7]),doff=normDayoff(row[9]);
 
     // 出演情報
