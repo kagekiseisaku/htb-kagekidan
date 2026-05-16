@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_20.html -->
+<!-- saved from url=(0054)file:///C:/Users/doi_m/Downloads/htb_kagekidan_26.html -->
 <html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -103,6 +103,15 @@ button,input,select,textarea{font-family:inherit}
 .import-box{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:var(--bg);transition:all .2s}
 .import-box:hover,.import-box.drag{border-color:var(--blue);background:var(--blue-bg)}
 .import-box i{font-size:32px;color:var(--muted);margin-bottom:8px;display:block}
+.sort-mode-banner{background:var(--blue-bg);border:1px solid var(--blue);border-radius:8px;padding:7px 12px;font-size:12px;color:#0D4A85;display:none;align-items:center;gap:8px;margin-bottom:8px}
+.sort-mode-banner.on{display:flex}
+.sort-mode .member-row-card{border-color:#AAC8E8;cursor:grab;user-select:none}
+.sort-mode .member-row-card.dragging{opacity:.35;box-shadow:0 4px 16px rgba(26,109,181,.25)}
+.sort-mode .member-row-card.drag-over-top{border-top:3px solid var(--blue)}
+.sort-mode .member-row-card.drag-over-bot{border-bottom:3px solid var(--blue)}
+.drag-handle{display:none;align-items:center;padding:0 6px 0 0;color:#AAC8E8;font-size:20px;cursor:grab;flex-shrink:0}
+.sort-mode .drag-handle{display:flex}
+.sort-mode .member-row-hdr{background:var(--blue-bg)}
 </style>
 </head>
 <body>
@@ -113,7 +122,7 @@ button,input,select,textarea{font-family:inherit}
     <div><div class="app-name">ハウステンボス歌劇団</div><div class="app-sub">スケジュール・移動管理システム</div></div>
   </div>
   <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot"></span><span style="color:var(--muted)">保存済み 22:12</span></span>
+    <span id="syncBadge" style="font-size:11px;color:var(--muted)"><span class="sync-dot" style="background:var(--blue)"></span><span style="color:var(--muted)">クラウド同期 18:50</span></span>
     <button class="btn btn-p" onclick="openAddPerf()"><i class="ti ti-plus"></i>公演追加</button>
     <button class="btn btn-p" onclick="openAddMember()"><i class="ti ti-user-plus"></i>メンバー追加</button>
   </div>
@@ -150,13 +159,13 @@ button,input,select,textarea{font-family:inherit}
     <button class="btn btn-sm btn-p" onclick="toggleSortMode()" style="margin-left:auto">完了</button>
   </div>
   <div class="legend-wrap" id="memberLegend"><div class="leg"><div class="leg-dot" style="background:#1A6DB5"></div>ブルーローズ</div><div class="leg"><div class="leg-dot" style="background:#1A9870"></div>ハート</div><div class="leg"><div class="leg-dot" style="background:#D45C28"></div>ハピネス</div><div class="leg"><div class="leg-dot" style="background:#C08010"></div>シャイン</div><div class="leg"><div class="leg-dot" style="background:#CC4E7A"></div>フラワー</div><div class="leg"><div class="leg-dot" style="background:#7B72DC"></div>ウィング</div><div class="leg"><div class="leg-dot" style="background:#B07010"></div>特別公演</div><div class="leg"><div class="leg-dot" style="background:#666460"></div>外部公演</div><div class="leg"><div class="leg-dot" style="background:#0D8C8C"></div>ミューズホール</div><div class="leg"><div class="leg-dot" style="background:#CCC"></div>稽古</div><div class="leg"><div class="leg-dot" style="background:#FFE0E0;border:1px solid #FFA0A0"></div>休演日</div><div class="leg"><div class="leg-dot" style="background:#C8E6C9;border:1px solid #A5D6A7"></div>お休み</div><div class="leg"><div class="leg-dot" style="background:transparent;border:1px dashed #DDD"></div>未登録</div></div>
-  <div id="memberGrid"><div class="group-label">チームリーダー（7名）</div><div class="member-row-card" data-id="1">
+  <div id="memberGrid"><div class="group-label">チームリーダー（14名）</div><div class="member-row-card" data-id="1">
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#1A6DB522;color:#0D4A85">雅</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">優雅</div>
             <div>
-              <div style="font-size:12px;font-weight:700">雅</div>
+              <div style="font-size:12px;font-weight:700">優雅</div>
               <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
                 <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
                 <span style="font-size:10px;color:var(--muted)">トップスター</span>
@@ -166,6 +175,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -191,6 +202,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -216,6 +229,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -241,6 +256,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -266,6 +283,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -291,6 +310,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -316,6 +337,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -325,15 +348,15 @@ button,input,select,textarea{font-family:inherit}
           </div>
         </div>
         <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
-      </div><div class="group-label">劇団生（47名）</div><div class="member-row-card" data-id="101">
+      </div><div class="member-row-card" data-id="101">
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">円悠</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">円悠</div>
             <div>
               <div style="font-size:12px;font-weight:700">円悠</div>
               <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
                 <span style="font-size:10px;color:var(--muted)">劇団生</span>
                 <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
               </div>
@@ -341,6 +364,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -354,11 +379,11 @@ button,input,select,textarea{font-family:inherit}
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">一颯</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">一颯</div>
             <div>
               <div style="font-size:12px;font-weight:700">一颯湊</div>
               <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
                 <span style="font-size:10px;color:var(--muted)">劇団生</span>
                 <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
               </div>
@@ -366,6 +391,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -379,11 +406,11 @@ button,input,select,textarea{font-family:inherit}
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">煌月</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">煌月</div>
             <div>
               <div style="font-size:12px;font-weight:700">煌月りお</div>
               <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
                 <span style="font-size:10px;color:var(--muted)">劇団生</span>
                 <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
               </div>
@@ -391,6 +418,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -404,11 +433,11 @@ button,input,select,textarea{font-family:inherit}
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">優音</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">優音</div>
             <div>
               <div style="font-size:12px;font-weight:700">優音颯来</div>
               <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
                 <span style="font-size:10px;color:var(--muted)">劇団生</span>
                 <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
               </div>
@@ -416,6 +445,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -425,7 +456,88 @@ button,input,select,textarea{font-family:inherit}
           </div>
         </div>
         <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
-      </div><div class="member-row-card" data-id="105">
+      </div><div class="member-row-card" data-id="123">
+        <div class="member-row-hdr">
+          <div class="member-row-info">
+            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">華海</div>
+            <div>
+              <div style="font-size:12px;font-weight:700">華海勇李</div>
+              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
+                <span style="font-size:10px;color:var(--muted)">劇団生</span>
+                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
+              </div>
+            </div>
+          </div>
+          <div class="m-stats">
+            <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
+            <span>稽古 <strong>0</strong>日</span>
+            <span>休演 <strong>0</strong>日</span>
+            <span>お休み <strong>0</strong>日</span>
+            <button class="btn btn-sm" onclick="openOffDayModal(123,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
+            <button class="btn btn-sm" onclick="openEditMember(123)"><i class="ti ti-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(123)"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
+      </div><div class="member-row-card" data-id="127">
+        <div class="member-row-hdr">
+          <div class="member-row-info">
+            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">蓮裕</div>
+            <div>
+              <div style="font-size:12px;font-weight:700">蓮裕斗</div>
+              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
+                <span style="font-size:10px;color:var(--muted)">劇団生</span>
+                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
+              </div>
+            </div>
+          </div>
+          <div class="m-stats">
+            <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
+            <span>稽古 <strong>0</strong>日</span>
+            <span>休演 <strong>0</strong>日</span>
+            <span>お休み <strong>0</strong>日</span>
+            <button class="btn btn-sm" onclick="openOffDayModal(127,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
+            <button class="btn btn-sm" onclick="openEditMember(127)"><i class="ti ti-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(127)"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
+      </div><div class="member-row-card" data-id="128">
+        <div class="member-row-hdr">
+          <div class="member-row-info">
+            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
+            <div class="av" style="background:#1A6DB522;color:#0D4A85">都月</div>
+            <div>
+              <div style="font-size:12px;font-weight:700">都月雅</div>
+              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
+                <span class="badge" style="background:#EBF3FB;color:#0D4A85">ブルーローズ</span>
+                <span style="font-size:10px;color:var(--muted)">劇団生</span>
+                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
+              </div>
+            </div>
+          </div>
+          <div class="m-stats">
+            <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
+            <span>稽古 <strong>0</strong>日</span>
+            <span>休演 <strong>0</strong>日</span>
+            <span>お休み <strong>0</strong>日</span>
+            <button class="btn btn-sm" onclick="openOffDayModal(128,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
+            <button class="btn btn-sm" onclick="openEditMember(128)"><i class="ti ti-edit"></i></button>
+            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(128)"><i class="ti ti-trash"></i></button>
+          </div>
+        </div>
+        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
+      </div><div class="group-label">劇団生（40名）</div><div class="member-row-card" data-id="105">
         <div class="member-row-hdr">
           <div class="member-row-info">
             <div class="drag-handle" title="ドラッグして並び替え">☰</div>
@@ -441,6 +553,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -466,6 +580,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -491,6 +607,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -516,6 +634,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -541,6 +661,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -566,6 +688,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -591,6 +715,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -616,6 +742,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -641,6 +769,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -666,6 +796,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -691,6 +823,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -716,6 +850,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -741,6 +877,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -766,6 +904,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -791,6 +931,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -816,6 +958,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -841,6 +985,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -866,37 +1012,14 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
             <button class="btn btn-sm" onclick="openOffDayModal(122,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
             <button class="btn btn-sm" onclick="openEditMember(122)"><i class="ti ti-edit"></i></button>
             <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(122)"><i class="ti ti-trash"></i></button>
-          </div>
-        </div>
-        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
-      </div><div class="member-row-card" data-id="123">
-        <div class="member-row-hdr">
-          <div class="member-row-info">
-            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">華海</div>
-            <div>
-              <div style="font-size:12px;font-weight:700">華海勇李</div>
-              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
-                <span style="font-size:10px;color:var(--muted)">劇団生</span>
-                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
-              </div>
-            </div>
-          </div>
-          <div class="m-stats">
-            <span>本番 <strong>0</strong>日</span>
-            <span>稽古 <strong>0</strong>日</span>
-            <span>休演 <strong>0</strong>日</span>
-            <span>お休み <strong>0</strong>日</span>
-            <button class="btn btn-sm" onclick="openOffDayModal(123,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
-            <button class="btn btn-sm" onclick="openEditMember(123)"><i class="ti ti-edit"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(123)"><i class="ti ti-trash"></i></button>
           </div>
         </div>
         <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
@@ -916,6 +1039,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -941,6 +1066,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -966,62 +1093,14 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
             <button class="btn btn-sm" onclick="openOffDayModal(126,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
             <button class="btn btn-sm" onclick="openEditMember(126)"><i class="ti ti-edit"></i></button>
             <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(126)"><i class="ti ti-trash"></i></button>
-          </div>
-        </div>
-        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
-      </div><div class="member-row-card" data-id="127">
-        <div class="member-row-hdr">
-          <div class="member-row-info">
-            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">蓮裕</div>
-            <div>
-              <div style="font-size:12px;font-weight:700">蓮裕斗</div>
-              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
-                <span style="font-size:10px;color:var(--muted)">劇団生</span>
-                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
-              </div>
-            </div>
-          </div>
-          <div class="m-stats">
-            <span>本番 <strong>0</strong>日</span>
-            <span>稽古 <strong>0</strong>日</span>
-            <span>休演 <strong>0</strong>日</span>
-            <span>お休み <strong>0</strong>日</span>
-            <button class="btn btn-sm" onclick="openOffDayModal(127,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
-            <button class="btn btn-sm" onclick="openEditMember(127)"><i class="ti ti-edit"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(127)"><i class="ti ti-trash"></i></button>
-          </div>
-        </div>
-        <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
-      </div><div class="member-row-card" data-id="128">
-        <div class="member-row-hdr">
-          <div class="member-row-info">
-            <div class="drag-handle" title="ドラッグして並び替え">☰</div>
-            <div class="av" style="background:#88822;color:#444">都月</div>
-            <div>
-              <div style="font-size:12px;font-weight:700">都月雅</div>
-              <div style="display:flex;gap:4px;align-items:center;margin-top:2px;flex-wrap:wrap">
-                <span class="badge" style="background:#F2F0EC;color:#444">劇団生</span>
-                <span style="font-size:10px;color:var(--muted)">劇団生</span>
-                <span class="badge" style="background:#E5F5EF;color:#0A5C40">在団</span>
-              </div>
-            </div>
-          </div>
-          <div class="m-stats">
-            <span>本番 <strong>0</strong>日</span>
-            <span>稽古 <strong>0</strong>日</span>
-            <span>休演 <strong>0</strong>日</span>
-            <span>お休み <strong>0</strong>日</span>
-            <button class="btn btn-sm" onclick="openOffDayModal(128,&#39;2026&#39;,&#39;4&#39;)" style="color:var(--green);border-color:var(--green)" title="お休み登録"><i class="ti ti-calendar-plus"></i></button>
-            <button class="btn btn-sm" onclick="openEditMember(128)"><i class="ti ti-edit"></i></button>
-            <button class="btn btn-sm btn-danger" onclick="confirmDeleteMember(128)"><i class="ti ti-trash"></i></button>
           </div>
         </div>
         <div class="days-scroll"><div class="days-row"><div class="day-cell"><div class="day-num ">1</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">2</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">3</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">4</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">5</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">6</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">7</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">8</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">9</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">10</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">11</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">12</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">13</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">14</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">15</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">16</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">17</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">18</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">19</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">20</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">21</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">22</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">23</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">24</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">25</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">26</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">27</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">28</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num ">29</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sat">30</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div><div class="day-cell"><div class="day-num sun">31</div><div style="display:flex;flex-direction:column;gap:1px"><div class="day-block-am off"></div><div class="day-block-pm off"></div></div></div></div></div>
@@ -1041,6 +1120,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1066,6 +1147,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1091,6 +1174,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1116,6 +1201,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1141,6 +1228,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1166,6 +1255,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1191,6 +1282,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1216,6 +1309,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1241,6 +1336,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1266,6 +1363,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1291,6 +1390,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1316,6 +1417,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1341,6 +1444,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1366,6 +1471,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1391,6 +1498,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1416,6 +1525,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1441,6 +1552,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1466,6 +1579,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1491,6 +1606,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1516,6 +1633,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1541,6 +1660,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1566,6 +1687,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1591,6 +1714,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1616,6 +1741,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1641,6 +1768,8 @@ button,input,select,textarea{font-family:inherit}
           </div>
           <div class="m-stats">
             <span>本番 <strong>0</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>0</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>0</strong>回</span>
             <span>稽古 <strong>0</strong>日</span>
             <span>休演 <strong>0</strong>日</span>
             <span>お休み <strong>0</strong>日</span>
@@ -1723,7 +1852,7 @@ button,input,select,textarea{font-family:inherit}
         GAS URLを設定すると3名が同じデータをリアルタイムで共有できます。<br>
         誰かが更新すると30秒以内に全員に反映されます。
       </div>
-      <div id="gasStatus" style="margin-bottom:10px"></div>
+      <div id="gasStatus" style="margin-bottom:10px"><div style="background:var(--green-bg);border:1px solid var(--green);border-radius:8px;padding:8px 12px;font-size:12px;color:#0A5C40;display:flex;align-items:center;gap:6px"><i class="ti ti-circle-check" style="font-size:16px"></i>接続成功！3名共有が有効になりました</div></div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <input type="text" id="gasUrlInput" class="fi" style="flex:1;min-width:200px" placeholder="GAS WebアプリのURLをここに貼り付け…">
         <button class="btn btn-p" onclick="saveGasUrl()"><i class="ti ti-check"></i>設定する</button>
@@ -1799,7 +1928,11 @@ function loadDB(){
   migrateDB();
   if(gasUrl)loadFromGas();else showSync('local');
 }
-function migrateDB(){if(!db.offDays)db.offDays={};if(!db.members)db.members=[];if(!db.performances)db.performances=[];}
+function migrateDB(){
+  if(!db.offDays)db.offDays={};
+  if(!db.members)db.members=[];
+  if(!db.performances)db.performances=[];
+}
 function saveDB(){
   try{localStorage.setItem(SK,JSON.stringify(db));}catch(e){}
   if(gasUrl)saveToGas();else showSync('local');
@@ -1825,11 +1958,26 @@ async function loadFromGas(){
     if(j.ok&&j.data){
       const remote=JSON.parse(j.data);
       if(!db.updatedAt||!remote.updatedAt||remote.updatedAt>db.updatedAt){
-        db=remote;migrateDB();localStorage.setItem(SK,JSON.stringify(db));renderAll();
+        db=remote;
+        migrateDB();
+        // GASのデータにメンバーがいない場合は初期データを投入
+        if(db.members.length===0){
+          seedDB();
+          return;
+        }
+        localStorage.setItem(SK,JSON.stringify(db));
+        renderAll();
       }
       showSync('cloud');
+    } else {
+      // GASにデータがない場合もメンバーがいなければ初期データを投入
+      if(db.members.length===0) seedDB();
+      showSync('local');
     }
-  }catch(e){showSync('local');}
+  }catch(e){
+    if(db.members.length===0) seedDB();
+    showSync('local');
+  }
 }
 async function saveToGas(){
   if(!gasUrl)return;
@@ -1938,7 +2086,7 @@ function renderMemberCal(){
     grp.list.forEach(m=>{
       const c=isSpecial(m.team)?{bg:'#F2F0EC',border:'#888',text:'#444'}:tc(m.team);
       const si=ST[m.status]||ST.active;
-      let sc=0,rc=0,restc=0,offc=0;
+      let sc=0,rc=0,restc=0,offc=0,show1c=0,show2c=0;
       const cells=dayHeaders.map(({d,dow})=>{
         const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
         const blocks=buildDayBlocks(m.id,ds);
@@ -1947,7 +2095,21 @@ function renderMemberCal(){
         let hasShow=false,hasReh=false,hasRest=false;
         for(const p of perfsToday){const info=getDayInfo(p,ds);if(!info)continue;if(info.type==='rest'){hasRest=true;break;}if(info.type==='show')hasShow=true;if(info.type==='reh')hasReh=true;}
         const offKey=`${m.id}_${ds}`;
-        if(hasRest)restc++;else if(hasShow)sc++;else if(hasReh)rc++;else if(db.offDays&&db.offDays[offKey])offc++;
+        if(hasRest)restc++;
+        else if(hasShow){
+          sc++;
+          // 1回目・2回目カウント
+          const showPerf=db.performances.find(p=>p.cast&&p.cast.includes(m.id)&&getDayInfo(p,ds)&&getDayInfo(p,ds).type==='show');
+          if(showPerf){
+            const info=getDayInfo(showPerf,ds);
+            const st=info.showType||'両方';
+            if(st==='両方'){show1c++;show2c++;}
+            else if(st==='1回目のみ')show1c++;
+            else if(st==='2回目のみ')show2c++;
+          }
+        }
+        else if(hasReh)rc++;
+        else if(db.offDays&&db.offDays[offKey])offc++;
         return`<div class="day-cell"><div class="day-num ${nc}">${d}</div><div style="display:flex;flex-direction:column;gap:1px">${blocks}</div></div>`;
       }).join('');
       html+=`<div class="member-row-card" data-id="${m.id}">
@@ -1966,6 +2128,8 @@ function renderMemberCal(){
           </div>
           <div class="m-stats">
             <span>本番 <strong>${sc}</strong>日</span>
+            <span title="1回目出演回数">1回目 <strong>${show1c}</strong>回</span>
+            <span title="2回目出演回数">2回目 <strong>${show2c}</strong>回</span>
             <span>稽古 <strong>${rc}</strong>日</span>
             <span>休演 <strong>${restc}</strong>日</span>
             <span>お休み <strong>${offc}</strong>日</span>
@@ -2290,14 +2454,7 @@ function showPerfModal(p){
   }).join('');
   const closedVal=p&&p.closedDays?p.closedDays.join(','):'';
   showModal(`<div class="modal-title">${p?`「${p.title||'公演'}」を編集`:'新しい公演を追加'}<button class="btn-ghost" onclick="closeModal()"><i class="ti ti-x" style="font-size:17px"></i></button></div>
-    <div class="form-2">
-      <div><label class="form-lbl">チーム</label><select class="fi" id="pTeam">${TEAMS.map(t=>`<option value="${t.name}"${p&&p.team===t.name?' selected':''}>${t.name}</option>`).join('')}</select></div>
-      <div><label class="form-lbl">本番種別</label><select class="fi" id="pShowType">
-        <option value="両方"${(!p||p.showType==='両方')?' selected':''}>両方（1回目・2回目）</option>
-        <option value="1回目のみ"${p&&p.showType==='1回目のみ'?' selected':''}>1回目のみ</option>
-        <option value="2回目のみ"${p&&p.showType==='2回目のみ'?' selected':''}>2回目のみ</option>
-      </select></div>
-    </div>
+    <div class="form-row"><label class="form-lbl">チーム</label><select class="fi" id="pTeam">${TEAMS.map(t=>`<option value="${t.name}"${p&&p.team===t.name?' selected':''}>${t.name}</option>`).join('')}</select></div>
     <div class="form-row"><label class="form-lbl">公演タイトル</label><input class="fi" id="pTitle" type="text" value="${p?p.title:''}" placeholder="タイトルを入力…"></div>
     <div class="form-2">
       <div><label class="form-lbl">稽古 開始</label><input class="fi" id="pRS" type="date" value="${p?p.rehearsalStart:''}"></div>
@@ -2318,7 +2475,7 @@ function showPerfModal(p){
 function toggleCast(id,bg,border,text){const chip=document.getElementById('cc_'+id);if(chip.classList.contains('selected')){chip.classList.remove('selected');chip.style.cssText='';}else{chip.classList.add('selected');chip.style.background=bg;chip.style.borderColor=border;chip.style.color=text;}}
 function savePerf(){
   const team=document.getElementById('pTeam').value;
-  const showType=document.getElementById('pShowType').value;
+  const showType='両方'; // 日別で管理するため固定
   const title=document.getElementById('pTitle').value.trim();
   const rS=document.getElementById('pRS').value,rE=document.getElementById('pRE').value;
   const sS=document.getElementById('pSS').value,sE=document.getElementById('pSE').value;
@@ -2388,26 +2545,79 @@ function handleFile(file){
     try{
       const wb=XLSX.read(e.target.result,{type:'array'});
       let added=0,errors=[];
-      ['大劇場公演','ミューズホール公演'].forEach(sn=>{
-        const ws=wb.Sheets[sn];if(!ws)return;
-        const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
-        let start=-1;
-        for(let i=0;i<rows.length;i++){if(rows[i][0]&&String(rows[i][0]).includes('公演タイトル')){start=i+1;break;}}
-        if(start<0){errors.push(`「${sn}」のヘッダーが見つかりません`);return;}
-        for(let i=start;i<rows.length;i++){
-          const r=rows[i];const title=String(r[0]||'').trim();if(!title)continue;
-          const team=String(r[1]||'').trim()||'ブルーローズ';
-          const rS=toDateStr(r[2]),rE=toDateStr(r[3]),sS=toDateStr(r[4]),sE=toDateStr(r[5]);
-          const showType=String(r[6]||'両方').trim();
-          const castIds=(String(r[7]||'')).split(/[,，、]/).map(n=>{const f=db.members.find(m=>m.name===n.trim()||m.name.replace(/[\s　]/g,'')===n.trim().replace(/[\s　]/g,''));return f?f.id:null;}).filter(Boolean);
-          const closedDays=(String(r[8]||'')).split(/[,，、]/).map(n=>parseInt(n.trim())).filter(n=>!isNaN(n));
-          const note=String(r[9]||'').trim();
-          const dup=db.performances.find(p=>p.title===title&&p.team===team&&p.showStart===sS);
-          if(dup){errors.push(`「${title}」は登録済みのためスキップ`);continue;}
-          db.performances.push({id:newId(),team:team==='ミューズホール公演'?'ミューズホール':team,showType,title,rehearsalStart:rS,rehearsalEnd:rE,showStart:sS,showEnd:sE,cast:castIds,closedDays,note,showTypeMap:{}});
+      const sheetNames=wb.SheetNames;
+
+      // 新テンプレート形式（公演基本情報 + 日別スケジュール）
+      if(sheetNames.includes('公演基本情報')&&sheetNames.includes('日別スケジュール')){
+        const perfWs=wb.Sheets['公演基本情報'];
+        const schedWs=wb.Sheets['日別スケジュール'];
+        const perfRows=XLSX.utils.sheet_to_json(perfWs,{header:1,defval:''});
+        const schedRows=XLSX.utils.sheet_to_json(schedWs,{header:1,defval:''});
+
+        // 公演基本情報を読み込む
+        let perfStart=-1;
+        for(let i=0;i<perfRows.length;i++){if(String(perfRows[i][0]).includes('公演ID')){perfStart=i+1;break;}}
+        const perfMap={};
+        if(perfStart>=0){
+          for(let i=perfStart;i<perfRows.length;i++){
+            const r=perfRows[i];const pid=String(r[0]||'').trim();const title=String(r[1]||'').trim();
+            if(!pid||!title)continue;
+            const team=String(r[2]||'').trim();
+            const rS=toDateStr(r[3]),rE=toDateStr(r[4]),sS=toDateStr(r[5]),sE=toDateStr(r[6]);
+            const castRaw=String(r[7]||'').trim();
+            const note=String(r[8]||'').trim();
+            const castIds=castRaw?castRaw.split(/[,，、]/).map(n=>{const f=db.members.find(m=>m.name===n.trim()||m.name.replace(/[\s　]/g,'')===n.trim().replace(/[\s　]/g,''));return f?f.id:null;}).filter(Boolean):[];
+            perfMap[pid]={title,team,rehearsalStart:rS,rehearsalEnd:rE,showStart:sS,showEnd:sE,cast:castIds,note,showTypeMap:{},closedDays:[]};
+          }
+        }
+
+        // 日別スケジュールを読み込む
+        let schedStart=-1;
+        for(let i=0;i<schedRows.length;i++){if(String(schedRows[i][0]).includes('公演ID')){schedStart=i+1;break;}}
+        if(schedStart>=0){
+          for(let i=schedStart;i<schedRows.length;i++){
+            const r=schedRows[i];const pid=String(r[0]||'').trim();const ds=toDateStr(r[1]);const type=String(r[2]||'').trim();
+            if(!pid||!ds||!perfMap[pid])continue;
+            if(type==='休演'){
+              const dayNum=parseInt(ds.split('-')[2]);
+              if(!perfMap[pid].closedDays.includes(dayNum))perfMap[pid].closedDays.push(dayNum);
+            }else{
+              perfMap[pid].showTypeMap[ds]=type||'両方';
+            }
+          }
+        }
+
+        // DBに追加
+        for(const[pid,perf]of Object.entries(perfMap)){
+          const dup=db.performances.find(p=>p.title===perf.title&&p.team===perf.team&&p.showStart===perf.showStart);
+          if(dup){errors.push(`「${perf.title}」は登録済みのためスキップ`);continue;}
+          db.performances.push({id:newId(),...perf,showType:'両方'});
           added++;
         }
-      });
+
+      } else {
+        // 旧テンプレート形式（大劇場公演・ミューズホール公演シート）
+        ['大劇場公演','ミューズホール公演'].forEach(sn=>{
+          const ws=wb.Sheets[sn];if(!ws)return;
+          const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+          let start=-1;
+          for(let i=0;i<rows.length;i++){if(rows[i][0]&&String(rows[i][0]).includes('公演タイトル')){start=i+1;break;}}
+          if(start<0){errors.push(`「${sn}」のヘッダーが見つかりません`);return;}
+          for(let i=start;i<rows.length;i++){
+            const r=rows[i];const title=String(r[0]||'').trim();if(!title)continue;
+            const team=String(r[1]||'').trim()||'ブルーローズ';
+            const rS=toDateStr(r[2]),rE=toDateStr(r[3]),sS=toDateStr(r[4]),sE=toDateStr(r[5]);
+            const castIds=(String(r[7]||'')).split(/[,，、]/).map(n=>{const f=db.members.find(m=>m.name===n.trim()||m.name.replace(/[\s　]/g,'')===n.trim().replace(/[\s　]/g,''));return f?f.id:null;}).filter(Boolean);
+            const closedDays=(String(r[8]||'')).split(/[,，、]/).map(n=>parseInt(n.trim())).filter(n=>!isNaN(n));
+            const note=String(r[9]||'').trim();
+            const dup=db.performances.find(p=>p.title===title&&p.team===team&&p.showStart===sS);
+            if(dup){errors.push(`「${title}」は登録済みのためスキップ`);continue;}
+            db.performances.push({id:newId(),team:team==='ミューズホール公演'?'ミューズホール':team,showType:'両方',title,rehearsalStart:rS,rehearsalEnd:rE,showStart:sS,showEnd:sE,cast:castIds,closedDays,note,showTypeMap:{}});
+            added++;
+          }
+        });
+      }
+
       saveDB();renderAll();
       showImportResult(added>0?'success':'warn',`${added}件取り込みました。`+(errors.length?`<br>${errors.join('<br>')}`:''));
     }catch(err){showImportResult('error','読み込みエラー: '+err.message);}
@@ -2422,16 +2632,33 @@ function showImportResult(type,msg){
 function downloadTemplate(){
   if(typeof XLSX==='undefined'){alert('少し待ってから再度お試しください');return;}
   const wb=XLSX.utils.book_new();
-  const mk=(note)=>XLSX.utils.aoa_to_sheet([
-    [`【公演スケジュール入力シート】 ${note}`],[],[],
+
+  // 公演基本情報シート
+  const perfSheet=XLSX.utils.aoa_to_sheet([
+    ['【公演基本情報シート】'],
+    ['※ここに公演の基本情報を入力してください'],
     ['チーム: ブルーローズ/ハート/ハピネス/シャイン/フラワー/ウィング/特別公演/外部公演/ミューズホール'],
-    ['本番種別: 両方（1回目・2回目）/ 1回目のみ / 2回目のみ'],
-    ['出演メンバー: カンマ区切り 例: 優雅,円悠,煌月りお'],['休演日: 日にちをカンマ区切り 例: 5,12,19'],[],
-    ['公演タイトル','チーム','稽古開始(YYYY-MM-DD)','稽古終了','本番開始','本番終了','本番種別','出演メンバー(カンマ区切り)','休演日','備考'],
-    ['（例）6月公演','ブルーローズ','2026-06-01','2026-06-10','2026-06-11','2026-06-30','両方','優雅,円悠','14,21',''],
+    ['出演メンバー: カンマ区切り 例: 優雅,円悠,煌月りお'],[],
+    ['公演ID','公演タイトル','チーム','稽古開始(YYYY-MM-DD)','稽古終了','本番開始','本番終了','出演メンバー(カンマ区切り)','備考'],
+    ['P001','（例）6月公演','ブルーローズ','2026-06-01','2026-06-10','2026-06-11','2026-06-30','優雅,円悠,煌月りお',''],
   ]);
-  XLSX.utils.book_append_sheet(wb,mk('大劇場・特別公演・外部公演'),'大劇場公演');
-  XLSX.utils.book_append_sheet(wb,mk('ミューズホール公演'),'ミューズホール公演');
+  XLSX.utils.book_append_sheet(wb,perfSheet,'公演基本情報');
+
+  // 日別スケジュールシート
+  const rows=[
+    ['【日別スケジュールシート】'],
+    ['※公演IDは「公演基本情報」シートのIDと一致させてください'],
+    ['種別: 両方/1回目のみ/2回目のみ/休演'],[],
+    ['公演ID','日付(YYYY-MM-DD)','種別'],
+    ['P001','2026-06-11','両方'],
+    ['P001','2026-06-12','1回目のみ'],
+    ['P001','2026-06-13','2回目のみ'],
+    ['P001','2026-06-14','休演'],
+    ['P001','2026-06-15','両方'],
+  ];
+  const schedSheet=XLSX.utils.aoa_to_sheet(rows);
+  XLSX.utils.book_append_sheet(wb,schedSheet,'日別スケジュール');
+
   XLSX.writeFile(wb,'HTB歌劇団_公演スケジュールテンプレート.xlsx');
 }
 
